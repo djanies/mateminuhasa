@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Matematika Kelas 3</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.4s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-blue-50 font-sans text-gray-800 min-h-screen flex items-center justify-center p-4">
+
+    <div id="app" class="w-full max-w-2xl bg-white rounded-3xl shadow-xl overflow-hidden min-h-[500px] flex flex-col">
+        <!-- Konten akan di-render di sini oleh JavaScript -->
+    </div>
+
+    <script>
+        const quizData = [
+            // --- SOAL PILIHAN GANDA (20 Soal) ---
+            { id: 1, type: 'mc', category: 'Pilihan Ganda', question: 'Di bawah ini, manakah yang merupakan ciri dari sudut lancip?', options: ['Besarnya kurang dari 90°', 'Besarnya tepat 90°', 'Besarnya lebih dari 90°', 'Besarnya 180°'], answer: 'Besarnya kurang dari 90°', explanation: 'Sudut lancip adalah sudut yang memiliki besar lebih dari 0° dan kurang dari 90° (bentuknya runcing).' },
+            { id: 2, type: 'mc', category: 'Pilihan Ganda', question: 'Sudut siku-siku memiliki besar sudut yang pasti, yaitu...', options: ['45°', '90°', '180°', '360°'], answer: '90°', explanation: 'Sudut siku-siku selalu memiliki besar tepat 90°. Sudut ini membentuk tegak lurus sempurna seperti ujung buku.' },
+            { id: 3, type: 'mc', category: 'Pilihan Ganda', question: 'Bangun datar yang memiliki tiga sisi dan tiga sudut adalah...', options: ['Persegi', 'Lingkaran', 'Segitiga', 'Trapesium'], answer: 'Segitiga', explanation: 'Sesuai dengan namanya, "Segitiga" memiliki 3 sisi yang saling bertemu membentuk 3 buah titik sudut.' },
+            { id: 4, type: 'mc', category: 'Pilihan Ganda', question: 'Berapakah jumlah sudut siku-siku yang dimiliki oleh bangun persegi?', options: ['2', '3', '4', '5'], answer: '4', explanation: 'Bangun persegi memiliki 4 sudut yang semuanya merupakan sudut siku-siku (90°).' },
+            { id: 5, type: 'mc', category: 'Pilihan Ganda', question: 'Kumpulan titik-titik yang memanjang secara tak terbatas ke dua arah disebut...', options: ['Titik', 'Ruas Garis', 'Sinar Garis', 'Garis'], answer: 'Garis', explanation: 'Garis lurus adalah kumpulan titik-titik yang memanjang tanpa ujung ke dua arah.' },
+            { id: 6, type: 'mc', category: 'Pilihan Ganda', question: 'Alat yang biasa digunakan untuk mengukur besar sebuah sudut adalah...', options: ['Penggaris', 'Jangka', 'Busur Derajat', 'Meteran'], answer: 'Busur Derajat', explanation: 'Busur derajat adalah alat berbentuk setengah lingkaran yang memiliki skala angka untuk mengukur besar sudut.' },
+            { id: 7, type: 'mc', category: 'Pilihan Ganda', question: 'Bangun datar beraturan yang memiliki tepat 5 titik sudut adalah...', options: ['Segitiga', 'Persegi', 'Segi Lima', 'Segi Enam'], answer: 'Segi Lima', explanation: 'Segi lima (pentagon) adalah bangun datar yang memiliki 5 sisi dan 5 titik sudut.' },
+            { id: 8, type: 'mc', category: 'Pilihan Ganda', question: 'Dua garis lurus yang memiliki jarak sama dan tidak akan pernah berpotongan meskipun diperpanjang disebut...', options: ['Garis Berpotongan', 'Garis Sejajar', 'Garis Tegak Lurus', 'Garis Lengkung'], answer: 'Garis Sejajar', explanation: 'Garis sejajar ibarat rel kereta api; seberapa pun panjangnya, kedua sisinya tidak akan pernah saling bersilangan.' },
+            { id: 9, type: 'mc', category: 'Pilihan Ganda', question: 'Garis lengkung biasanya dapat kita temukan pada benda atau bangun datar berbentuk...', options: ['Persegi panjang', 'Papan tulis', 'Lingkaran', 'Atap rumah segitiga'], answer: 'Lingkaran', explanation: 'Lingkaran dibentuk oleh satu garis lengkung penuh yang tertutup dan tidak memiliki garis lurus.' },
+            { id: 10, type: 'mc', category: 'Pilihan Ganda', question: 'Jika jarum panjang jam menunjuk angka 12 dan jarum pendek menunjuk angka 3, sudut yang terbentuk adalah...', options: ['Sudut Lancip', 'Sudut Siku-siku', 'Sudut Tumpul', 'Sudut Refleks'], answer: 'Sudut Siku-siku', explanation: 'Pukul 03.00 membentuk sudut 90°, yang merupakan sudut siku-siku tegak lurus.' },
+            { id: 11, type: 'mc', category: 'Pilihan Ganda', question: 'Sudut yang besarnya lebih dari 90° tetapi kurang dari 180° disebut sudut...', options: ['Lancip', 'Siku-siku', 'Tumpul', 'Refleks'], answer: 'Tumpul', explanation: 'Sudut tumpul bentuknya lebih "terbuka" melebar dibandingkan sudut siku-siku.' },
+            { id: 12, type: 'mc', category: 'Pilihan Ganda', question: 'Bagian dari garis lurus yang dibatasi oleh dua titik ujung disebut...', options: ['Sinar Garis', 'Garis', 'Ruas Garis', 'Garis Sejajar'], answer: 'Ruas Garis', explanation: 'Ruas garis memiliki titik awal dan titik akhir sehingga panjangnya bisa diukur dengan pasti.' },
+            { id: 13, type: 'mc', category: 'Pilihan Ganda', question: 'Dua buah garis yang saling berpotongan dan membentuk sudut siku-siku (90°) dinamakan garis...', options: ['Tegak Lurus', 'Sejajar', 'Lengkung', 'Bebas'], answer: 'Tegak Lurus', explanation: 'Garis tegak lurus membentuk tanda tambah (+) di mana keempat sudut persilangannya adalah 90°.' },
+            { id: 14, type: 'mc', category: 'Pilihan Ganda', question: 'Sinar garis adalah jenis garis yang memiliki ciri...', options: ['Tidak memiliki pangkal dan ujung', 'Memiliki pangkal tetapi tidak berujung', 'Memiliki pangkal dan ujung', 'Selalu berbelok-belok'], answer: 'Memiliki pangkal tetapi tidak berujung', explanation: 'Sinar garis seperti cahaya senter; punya titik sumber (pangkal) tetapi sinarnya memanjang terus tanpa ujung.' },
+            { id: 15, type: 'mc', category: 'Pilihan Ganda', question: 'Bangun datar manakah di bawah ini yang tidak memiliki sudut sama sekali?', options: ['Layang-layang', 'Belah ketupat', 'Oval (Elips)', 'Trapesium'], answer: 'Oval (Elips)', explanation: 'Oval dan lingkaran tersusun dari garis lengkung tertutup sehingga tidak membentuk titik sudut/pojok.' },
+            { id: 16, type: 'mc', category: 'Pilihan Ganda', question: 'Besar sudut satu putaran penuh adalah...', options: ['90°', '180°', '270°', '360°'], answer: '360°', explanation: 'Satu lingkaran penuh memiliki sudut sebesar 360°.' },
+            { id: 17, type: 'mc', category: 'Pilihan Ganda', question: 'Sebuah sudut lancip besarnya 40°. Berapakah besar sudut refleks dari sudut tersebut?', options: ['50°', '140°', '320°', '360°'], answer: '320°', explanation: 'Sudut refleks dihitung dengan cara: 360° dikurangi besar sudutnya. Jadi, 360° - 40° = 320°.' },
+            { id: 18, type: 'mc', category: 'Pilihan Ganda', question: 'Bangun datar yang memiliki dua pasang sisi sejajar dan keempat sudutnya siku-siku adalah...', options: ['Jajar Genjang', 'Persegi Panjang', 'Segitiga Sama Kaki', 'Belah Ketupat'], answer: 'Persegi Panjang', explanation: 'Persegi panjang memiliki sisi berhadapan yang sejajar dan sama panjang, serta 4 sudut siku-siku.' },
+            { id: 19, type: 'mc', category: 'Pilihan Ganda', question: 'Jika sebuah sudut tumpul memiliki besar 120°, berapakah besar sudut refleksnya?', options: ['60°', '240°', '300°', '360°'], answer: '240°', explanation: 'Sudut refleks = 360° - 120° = 240°.' },
+            { id: 20, type: 'mc', category: 'Pilihan Ganda', question: 'Di antara pilihan benda berikut, manakah yang memiliki ujung membentuk sudut lancip?', options: ['Ujung buku tulis', 'Permukaan bola', 'Ujung pensil yang diraut', 'Ujung meja belajar'], answer: 'Ujung pensil yang diraut', explanation: 'Ujung pensil yang diraut bentuknya sangat runcing, yang merupakan ciri dari sudut lancip.' },
+
+            // --- SOAL BENAR/SALAH (8 Soal) ---
+            { id: 21, type: 'tf', category: 'Benar / Salah', question: 'Pernyataan: Busur derajat hanya bisa digunakan untuk mengukur sudut siku-siku saja.', options: ['Benar', 'Salah'], answer: 'Salah', explanation: 'Busur derajat dapat digunakan untuk mengukur semua jenis sudut (lancip, siku-siku, tumpul) mulai dari 0° hingga 180°.' },
+            { id: 22, type: 'tf', category: 'Benar / Salah', question: 'Pernyataan: Sudut refleks dari sudut siku-siku (90°) adalah sebesar 270°.', options: ['Benar', 'Salah'], answer: 'Benar', explanation: 'Benar. Sudut refleks dihitung dengan 360° - 90° = 270°.' },
+            { id: 23, type: 'tf', category: 'Benar / Salah', question: 'Pernyataan: Garis sejajar adalah dua garis yang saling berpotongan jika diperpanjang.', options: ['Benar', 'Salah'], answer: 'Salah', explanation: 'Salah. Garis sejajar jaraknya selalu sama dan TIDAK AKAN PERNAH berpotongan sampai kapan pun.' },
+            { id: 24, type: 'tf', category: 'Benar / Salah', question: 'Pernyataan: Sudut tumpul selalu memiliki ukuran yang lebih besar daripada sudut lancip.', options: ['Benar', 'Salah'], answer: 'Benar', explanation: 'Benar. Sudut lancip kurang dari 90°, sedangkan sudut tumpul lebih dari 90°.' },
+            { id: 25, type: 'tf', category: 'Benar / Salah', question: 'Pernyataan: Ruas garis dan sinar garis adalah hal yang sama persis.', options: ['Benar', 'Salah'], answer: 'Salah', explanation: 'Salah. Ruas garis memiliki pangkal dan ujung, sedangkan sinar garis memiliki pangkal tetapi tidak memiliki ujung (memanjang terus).' },
+            { id: 26, type: 'tf', category: 'Benar / Salah', question: 'Pernyataan: Segitiga siku-siku pasti memiliki satu buah sudut yang besarnya 90°.', options: ['Benar', 'Salah'], answer: 'Benar', explanation: 'Benar. Ciri utama segitiga siku-siku adalah salah satu sudutnya tegak lurus atau 90°.' },
+            { id: 27, type: 'tf', category: 'Benar / Salah', question: 'Pernyataan: Jika besar suatu sudut adalah 150°, maka itu disebut sudut lancip.', options: ['Benar', 'Salah'], answer: 'Salah', explanation: 'Salah. Sudut yang besarnya 150° (lebih dari 90° dan kurang dari 180°) disebut sudut tumpul.' },
+            { id: 28, type: 'tf', category: 'Benar / Salah', question: 'Pernyataan: Garis lengkung adalah garis yang arahnya berbelok-belok atau melingkar, tidak lurus memanjang.', options: ['Benar', 'Salah'], answer: 'Benar', explanation: 'Benar. Garis lengkung tidak lurus dan arahnya selalu berubah/berbelok.' },
+
+            // --- SOAL MENJODOHKAN (7 Soal) ---
+            { id: 29, type: 'match', category: 'Menjodohkan', question: 'Jodohkan pernyataan ini dengan pasangan yang tepat: "Sudut yang besarnya 135°"', options: ['Sudut Lancip', 'Sudut Siku-siku', 'Sudut Tumpul', 'Sudut Refleks'], answer: 'Sudut Tumpul', explanation: '135° berada di antara 90° dan 180°, sehingga pasangannya adalah Sudut Tumpul.' },
+            { id: 30, type: 'match', category: 'Menjodohkan', question: 'Jodohkan deskripsi ini: "Garis yang memiliki titik pangkal tetapi tidak berujung."', options: ['Ruas Garis', 'Sinar Garis', 'Garis Sejajar', 'Garis Lengkung'], answer: 'Sinar Garis', explanation: 'Sinar garis berawal dari satu titik pangkal dan terus memanjang ke satu arah tanpa ujung.' },
+            { id: 31, type: 'match', category: 'Menjodohkan', question: 'Jodohkan pernyataan ini: "Bangun datar yang memiliki 0 sudut dan dibentuk oleh 1 garis lengkung penuh."', options: ['Segitiga', 'Persegi Panjang', 'Lingkaran', 'Layang-layang'], answer: 'Lingkaran', explanation: 'Lingkaran adalah satu-satunya bangun di pilihan tersebut yang sepenuhnya melengkung dan tidak bersudut.' },
+            { id: 32, type: 'match', category: 'Menjodohkan', question: 'Jodohkan contoh ini dengan jenis garisnya: "Lintasan rel kereta api yang lurus panjang."', options: ['Garis Berpotongan', 'Garis Tegak Lurus', 'Garis Sejajar', 'Garis Lengkung'], answer: 'Garis Sejajar', explanation: 'Rel kereta api adalah contoh nyata dalam kehidupan sehari-hari untuk Garis Sejajar.' },
+            { id: 33, type: 'match', category: 'Menjodohkan', question: 'Jodohkan: "Sebuah sudut tumpul besarnya 100°. Maka sudut refleksnya adalah..."', options: ['80°', '260°', '280°', '360°'], answer: '260°', explanation: 'Menghitung sudut refleks pasangannya: 360° - 100° = 260°.' },
+            { id: 34, type: 'match', category: 'Menjodohkan', question: 'Jodohkan bangun datar ini dengan banyak sisinya: "Belah Ketupat"', options: ['Memiliki 3 Sisi', 'Memiliki 4 Sisi', 'Memiliki 5 Sisi', 'Memiliki 0 Sisi'], answer: 'Memiliki 4 Sisi', explanation: 'Belah ketupat adalah bangun datar segi empat, yang berarti memiliki tepat 4 sisi.' },
+            { id: 35, type: 'match', category: 'Menjodohkan', question: 'Jodohkan pernyataan ini: "Sebuah sudut lancip 60°. Pasangan sudut refleksnya adalah..."', options: ['120°', '200°', '300°', '360°'], answer: '300°', explanation: 'Sudut refleks dari 60° adalah 360° - 60° = 300°.' }
+        ];
+
+        // State variables
+        let currentStep = 'start'; // 'start', 'quiz', 'result'
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedOptionIndex = null;
+        let isAnswered = false;
+
+        const appContainer = document.getElementById('app');
+
+        // Functions
+        function startQuiz() {
+            currentStep = 'quiz';
+            currentQuestionIndex = 0;
+            score = 0;
+            selectedOptionIndex = null;
+            isAnswered = false;
+            render();
+        }
+
+        function handleOptionClick(index) {
+            if (isAnswered) return; // Mencegah klik berulang
+            
+            selectedOptionIndex = index;
+            isAnswered = true;
+            
+            const currentQ = quizData[currentQuestionIndex];
+            const selectedOptionText = currentQ.options[index];
+
+            if (selectedOptionText === currentQ.answer) {
+                score++;
+            }
+            render();
+        }
+
+        function handleNextQuestion() {
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                selectedOptionIndex = null;
+                isAnswered = false;
+            } else {
+                currentStep = 'result';
+            }
+            render();
+        }
+
+        function getButtonClass(index) {
+            const currentQ = quizData[currentQuestionIndex];
+            const optionText = currentQ.options[index];
+
+            if (!isAnswered) {
+                return 'bg-white border-2 border-blue-200 hover:border-blue-500 hover:bg-blue-50 text-gray-700 cursor-pointer';
+            }
+            
+            if (optionText === currentQ.answer) {
+                return 'bg-green-100 border-2 border-green-500 text-green-800 cursor-default'; // Jawaban Benar
+            }
+            if (index === selectedOptionIndex && optionText !== currentQ.answer) {
+                return 'bg-red-100 border-2 border-red-500 text-red-800 cursor-default'; // Pilihan Salah
+            }
+            return 'bg-gray-50 border-2 border-gray-200 text-gray-400 opacity-60 cursor-default'; // Pilihan lainnya
+        }
+
+        // Render Functions
+        function render() {
+            if (currentStep === 'start') {
+                renderStartScreen();
+            } else if (currentStep === 'quiz') {
+                renderQuizScreen();
+            } else if (currentStep === 'result') {
+                renderResultScreen();
+            }
+            
+            // Inisialisasi ulang icon lucide setelah render DOM baru
+            lucide.createIcons();
+        }
+
+        function renderStartScreen() {
+            appContainer.innerHTML = `
+                <div class="p-10 text-center flex flex-col items-center flex-grow justify-center">
+                    <div class="bg-yellow-100 p-6 rounded-full mb-6">
+                        <i data-lucide="trophy" class="text-yellow-500 w-16 h-16"></i>
+                    </div>
+                    <h1 class="text-3xl md:text-4xl font-bold text-blue-800 mb-4">
+                        Kuis Matematika Kelas 3
+                    </h1>
+                    <p class="text-lg text-gray-600 mb-2">
+                        Persiapan STS Genap
+                    </p>
+                    <div class="bg-blue-50 rounded-xl p-4 mb-8 text-sm text-blue-800 w-full max-w-md text-left">
+                        <ul class="space-y-2 font-medium">
+                            <li>✨ Pilihan Ganda: 20 Soal</li>
+                            <li>✨ Benar/Salah: 8 Soal</li>
+                            <li>✨ Menjodohkan: 7 Soal</li>
+                            <li class="pt-2 border-t border-blue-200 mt-2">📚 Topik: Sudut, Garis, & Bangun Datar</li>
+                        </ul>
+                    </div>
+                    <button onclick="startQuiz()" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-transform transform hover:scale-105 shadow-lg">
+                        <i data-lucide="play" class="fill-current w-5 h-5"></i>
+                        Mulai Kuis Sekarang
+                    </button>
+                </div>
+            `;
+        }
+
+        function renderQuizScreen() {
+            const currentQ = quizData[currentQuestionIndex];
+            const progressPercent = (currentQuestionIndex / quizData.length) * 100;
+
+            let optionsHtml = '';
+            currentQ.options.forEach((option, index) => {
+                const btnClass = getButtonClass(index);
+                let iconHtml = '';
+                
+                if (isAnswered) {
+                    if (option === currentQ.answer) {
+                        iconHtml = '<i data-lucide="check-circle-2" class="text-green-500 shrink-0"></i>';
+                    } else if (index === selectedOptionIndex && option !== currentQ.answer) {
+                        iconHtml = '<i data-lucide="x-circle" class="text-red-500 shrink-0"></i>';
+                    }
+                }
+
+                optionsHtml += `
+                    <button onclick="handleOptionClick(${index})" class="w-full text-left p-4 rounded-xl font-medium transition-all duration-200 ${btnClass} flex justify-between items-center group">
+                        <span>${option}</span>
+                        ${iconHtml}
+                    </button>
+                `;
+            });
+
+            let explanationHtml = '';
+            if (isAnswered) {
+                explanationHtml = `
+                    <div class="animate-fade-in-up mt-6 bg-blue-50 border border-blue-200 rounded-xl p-5 relative">
+                        <div class="absolute -top-3 -left-3 bg-blue-500 text-white p-2 rounded-full shadow-md">
+                            <i data-lucide="info" class="w-5 h-5"></i>
+                        </div>
+                        <div class="pl-6">
+                            <h3 class="font-bold text-blue-900 mb-1">Pembahasan:</h3>
+                            <p class="text-blue-800 text-sm md:text-base leading-relaxed">
+                                ${currentQ.explanation}
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            const isNextDisabled = !isAnswered;
+            const nextBtnClass = isAnswered 
+                ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-md transform hover:translate-x-1 cursor-pointer'
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed';
+            const nextText = currentQuestionIndex === quizData.length - 1 ? 'Selesai' : 'Lanjut';
+
+            appContainer.innerHTML = `
+                <div class="flex flex-col h-full flex-grow">
+                    <!-- Header & Progress -->
+                    <div class="bg-blue-600 text-white p-4 md:px-8 shadow-md z-10">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="font-semibold bg-blue-500 px-3 py-1 rounded-full text-sm">
+                                Soal ${currentQuestionIndex + 1} dari ${quizData.length}
+                            </span>
+                            <span class="font-bold">Skor: ${score}</span>
+                        </div>
+                        <div class="w-full bg-blue-300 rounded-full h-2">
+                            <div class="bg-yellow-400 h-2 rounded-full transition-all duration-500" style="width: ${progressPercent}%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Question Body -->
+                    <div class="p-6 md:p-8 flex-grow">
+                        <div class="mb-2">
+                            <span class="inline-block bg-purple-100 text-purple-800 px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider mb-3">
+                                Tipe: ${currentQ.category}
+                            </span>
+                        </div>
+                        
+                        <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-6 leading-relaxed">
+                            ${currentQ.question}
+                        </h2>
+
+                        <div class="grid gap-3 mb-6">
+                            ${optionsHtml}
+                        </div>
+
+                        ${explanationHtml}
+                    </div>
+
+                    <!-- Footer Action -->
+                    <div class="p-4 md:px-8 border-t bg-gray-50 flex justify-end mt-auto">
+                        <button onclick="handleNextQuestion()" ${isNextDisabled ? 'disabled' : ''} class="flex items-center gap-2 px-6 py-3 rounded-full font-bold transition-all ${nextBtnClass}">
+                            ${nextText}
+                            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderResultScreen() {
+            const finalScore = Math.round((score / quizData.length) * 100);
+            const wrongAnswers = quizData.length - score;
+
+            appContainer.innerHTML = `
+                <div class="p-10 text-center flex flex-col items-center flex-grow justify-center">
+                    <div class="bg-green-100 p-6 rounded-full mb-6">
+                        <i data-lucide="trophy" class="text-green-500 w-16 h-16"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Kuis Selesai!</h2>
+                    <p class="text-gray-600 mb-8">Kerja bagus! Berikut adalah hasil skormu:</p>
+                    
+                    <div class="bg-blue-50 border-2 border-blue-100 rounded-2xl p-8 w-full max-w-sm mb-8 shadow-sm">
+                        <div class="text-6xl font-black text-blue-600 mb-2">
+                            ${finalScore}
+                        </div>
+                        <div class="text-blue-800 font-medium text-lg">Nilai Akhir</div>
+                        
+                        <div class="flex justify-between mt-6 text-sm border-t border-blue-200 pt-4">
+                            <div class="flex flex-col items-center p-2 w-1/2">
+                                <i data-lucide="check-circle-2" class="text-green-500 mb-1 w-6 h-6"></i>
+                                <span class="font-bold text-gray-700 text-lg">${score}</span>
+                                <span class="text-gray-500">Benar</span>
+                            </div>
+                            <div class="flex flex-col items-center p-2 w-1/2 border-l border-blue-200">
+                                <i data-lucide="x-circle" class="text-red-500 mb-1 w-6 h-6"></i>
+                                <span class="font-bold text-gray-700 text-lg">${wrongAnswers}</span>
+                                <span class="text-gray-500">Salah</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="startQuiz()" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-transform transform hover:scale-105 shadow-lg">
+                        <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+                        Ulangi Kuis
+                    </button>
+                </div>
+            `;
+        }
+
+        // Initialize App
+        render();
+
+    </script>
+</body>
+</html>
